@@ -1,0 +1,8 @@
+db.sqlite3
+weatherproject/__pycache__
+weather/__pycache__
+weather/migrations/__pycache__
+.env
+local_settings.py
+.python-version
+

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for obj in object_list %}
+        <div class='text-center mt-4 p-4 offset-3 col-6'>
+            <h2>{{ obj.location }}</h2>
+            
+            <div class='p-2 bg-light border'>
+                
+                {% comment %} onclickにJSの関数を指定 {% endcomment %}
+                <button onclick='getData({{ obj.id }})' class='btn btn-primary'>{{ obj.location }}の最新情報を取得する</button>
+                
+                <h5 class='p-4'>天気</h4>
+                <span class='h5 p-4' id='weather-{{obj.id}}'>{{ obj.weather }}</span>
+
+                <h5 class='p-4'>気温</h4>
+                <span class='h5 p-4' id='temperature-{{obj.id}}'>{{ obj.temperature }}</span>
+            </div>
+
+        </div>
+    {% endfor %}
+
+    <script type='text/javascript'>
+        function getData(id) {
+            // fetch = requestを投げて、responseをとってくる
+            // /api/<int:pk>/(WeatherAPIView)にrequestを投げて、上手くいけば、
+            // そのresponseをresponseという変数に格納
+            // さらに、そのresponseをjson形式に変換し、
+            // 変換したものをjsonという変数名で保存する
+            fetch(`/api/${id}`).then((response) => response.json()).then((json) => {
+            // WeatherAPIViewで返ってきたデータのjson形式と使用して値を変更する
+                document.getElementById(`weather-${id}`).innerText = json.weather   
+                document.getElementById(`temperature-${id}`).innerText = json.temperature
+            })
+        }
+    </script>
+
+{% endblock %}
